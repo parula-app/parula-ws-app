@@ -1,0 +1,19 @@
+{
+    "name": "pia-ws-app",
+    "version": "0.1.0",
+    "description": "A Pia voice app that is running in its own process and communicating with Pia using WebSockets",
+    "main": "./WSAppServer.js",
+    "author": "Ben Bucksch",
+    "license": "AGPL-3.0",
+    "homepage": "https://pia.im",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pia-im/pia-ws-app"
+    },
+    "dependencies": {
+        "pia": "https://github.com/benbucksch/pia",
+        "ws": "^7.2.3"
+    },
+    "devDependencies": {},
+    "type": "module"
+}
