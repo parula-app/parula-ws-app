@@ -2,7 +2,7 @@ import { intentsJSONWithValues } from './IntentsJSONGenerator.js';
 import { Client } from 'pia/client/Client.js';
 import { getConfig } from 'pia/util/config.js';
 import { assert } from 'pia/util/util.js';
-import { WSCall } from 'pia/client/wsapp/WSCall.js';
+import { WSCall } from 'pia/util/WSCall.js';
 import WebSocket from 'ws';
 
 /**
