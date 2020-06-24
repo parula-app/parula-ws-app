@@ -26,11 +26,10 @@ export default class WSAppServer {
   }
 
   async start() {
-    let wsCall = await this._connect();
-
     this._client = new Client();
     await this._client.loadApps(this.apps, "en");
 
+    let wsCall = await this._connect();
     for (let app of this.apps) {
       await this._registerAppWithCore(app, wsCall);
     }
@@ -39,12 +38,16 @@ export default class WSAppServer {
 
   async _connect() {
     let coreURL = getConfig().coreURL || kCoreURL;
+    let webSocket = new WebSocket(coreURL);
     return new Promise((resolve, reject) => {
       // Open network connection to WebSocket server = Pia core
-      let webSocket = new WebSocket(coreURL);
       webSocket.on("open", () => {
-        let wsCall = new WSCall(webSocket);
-        resolve(wsCall);
+        try {
+          let wsCall = new WSCall(webSocket);
+          resolve(wsCall);
+        } catch (ex) {
+          reject(ex);
+        }
       });
     });
   }
@@ -55,7 +58,7 @@ export default class WSAppServer {
    * @param wsCall {WSCall} connection with Pia core
    */
   async _registerAppWithCore(app, wsCall) {
-    await wsCall.makeCall("register", intentsJSONWithValues(app));
+    await wsCall.makeCall("registerApp", intentsJSONWithValues(app));
 
     // Register the handler for each intent
     for (let intent of Object.values(app.intents)) {
