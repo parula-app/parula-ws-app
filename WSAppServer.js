@@ -1,20 +1,20 @@
 import { intentsJSONWithValues } from './IntentsJSONGenerator.js';
-import { Client } from 'pia/client/Client.js';
-import { getConfig } from 'pia/util/config.js';
-import { assert } from 'pia/util/util.js';
-import { WSCall } from 'pia/util/WSCall.js';
+import { Client } from 'parula/client/Client.js';
+import { getConfig } from 'parula/util/config.js';
+import { assert } from 'parula/util/util.js';
+import { WSCall } from 'parula/util/WSCall.js';
 import WebSocket from 'ws';
 
 /**
- * Wraps a Pia voice app as a WebSocket client.
- * We will connect to Pia core over a WebSocket,
+ * Wraps a Parula voice app as a WebSocket client.
+ * We will connect to Parula core over a WebSocket,
  * register our app, and then wait for calls from the core
  * to the intents.
  *
  * Reads the basic intents and commands from a JSON file.
  * Then loads the app and lets it add the available values
  * for each type.
- * Then we register our app with the Pia core.
+ * Then we register our app with the Parula core.
  */
 export default class WSAppServer {
   constructor(apps) {
@@ -22,7 +22,7 @@ export default class WSAppServer {
     apps.forEach(app => assert(app.intents, "App has wrong type"));
     this.apps = apps; // {Array of AppBase}
     this._client = null; // {Client}
-    //this._wsCall = null; // {WSCall} connection with Pia core
+    //this._wsCall = null; // {WSCall} connection with Parula core
   }
 
   async start() {
@@ -40,7 +40,7 @@ export default class WSAppServer {
     let coreURL = getConfig().coreURL || kCoreURL;
     let webSocket = new WebSocket(coreURL);
     return new Promise((resolve, reject) => {
-      // Open network connection to WebSocket server = Pia core
+      // Open network connection to WebSocket server = Parula core
       webSocket.on("open", () => {
         try {
           let wsCall = new WSCall(webSocket);
@@ -53,9 +53,9 @@ export default class WSAppServer {
   }
 
   /**
-   * Notify the Pia core of us
+   * Notify the Parula core of us
    * @param app {AppBase} our app
-   * @param wsCall {WSCall} connection with Pia core
+   * @param wsCall {WSCall} connection with Parula core
    */
   async _registerAppWithCore(app, wsCall) {
     await wsCall.makeCall("registerApp", intentsJSONWithValues(app));
@@ -69,7 +69,7 @@ export default class WSAppServer {
 
   /**
    * The user invoked an intent command and the
-   * Pia core called us to run the intent.
+   * Parula core called us to run the intent.
    *
    * Map from WebSocket/WSCall and JSON to intent call.
    *
@@ -81,7 +81,7 @@ export default class WSAppServer {
    *       ...
    *     }
    *   }
-   * @see WSApp.js for the WebSocket server = Pia core
+   * @see WSApp.js for the WebSocket server = Parula core
    */
   async intentCall(intent, call) {
     // TODO map back NamedValues from term to value

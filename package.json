@@ -1,17 +1,17 @@
 {
-    "name": "pia-ws-app",
+    "name": "parula-ws-app",
     "version": "0.1.0",
-    "description": "A Pia voice app that is running in its own process and communicating with Pia using WebSockets",
+    "description": "Parula voice app that is running in its own process and communicating with Parula using WebSockets",
     "main": "./WSAppServer.js",
     "author": "Ben Bucksch",
     "license": "AGPL-3.0",
-    "homepage": "https://pia.im",
+    "homepage": "https://parula.app",
     "repository": {
         "type": "git",
-        "url": "https://github.com/pia-im/pia-ws-app"
+        "url": "https://github.com/parula-app/parula-ws-app"
     },
     "dependencies": {
-        "pia": "https://github.com/benbucksch/pia",
+        "parula": "https://github.com/parula-app/assistant",
         "ws": "^7.2.3"
     },
     "devDependencies": {},
